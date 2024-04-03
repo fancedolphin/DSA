@@ -101,7 +101,7 @@ public class LinearProbingHashTable {
     }
 
     public void printHashTable(LinearProbingHashTable hashTable) {
-        System.out.println("Hash Table:");
+        System.out.println("Liner Hash Table:");
         for (int i = 0; i < hashTable.keys.length; i++) {
             if (hashTable.keys[i] != null) {
                 System.out.print("Index " + i + ": " + hashTable.keys[i] + " -> " + hashTable.values[i]);

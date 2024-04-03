@@ -38,6 +38,10 @@ public class DoubleLinkedL<T> {
             size--;
         }
     }
+    public Node<T> getHead() {
+        return head;
+    }
+
     public void delete(int index) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
@@ -59,7 +63,7 @@ public class DoubleLinkedL<T> {
         size--;
     }
 
-    public T get(int index) {
+    public T getData(int index) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
         }

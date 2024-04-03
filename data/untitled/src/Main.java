@@ -1,64 +1,29 @@
-public class Main{
-public static void main(String[] args) {
-    LinearProbingHashTable hashTable = new LinearProbingHashTable();
+public class Main {
+    public static void main(String[] args) {
+        // Initialize both hash tables
+        LinearProbingHashTable linearHashTable = new LinearProbingHashTable();
+        ChainingHashTable chainingHashTable = new ChainingHashTable(3);
 
-    // Inserting 15 key-value pairs
-    hashTable.put("apple", "red");
-    hashTable.printHashTable(hashTable);
-    hashTable.put("banana", "yellow");
-    hashTable.printHashTable(hashTable);
-    hashTable.put("cherry", "red");
-    hashTable.printHashTable(hashTable);
-    hashTable.put("lemon", "yellow");
-    hashTable.printHashTable(hashTable);
-    hashTable.put("mango", "orange");
-    hashTable.printHashTable(hashTable);
-    hashTable.put("nectarine", "orange");
-    hashTable.printHashTable(hashTable);
-    hashTable.put("orange", "orange");
-    hashTable.printHashTable(hashTable);
-    hashTable.put("pear", "green");
-    hashTable.printHashTable(hashTable);
+        // Insert key-value pairs into both hash tables
+        String[] keys = {"key1", "key2", "key3", "key4", "key5", "key6", "key7", "key8", "key9", "key10", "key11", "key12", "key13", "key517"};
+        String[] values = {"value1", "value2", "value3", "value4", "value5", "value6", "value7", "value8", "value9", "value10", "value11", "value12", "value13", "value517"};
 
-    System.out.println("Search result for 'pear': " + hashTable.search("pear"));
-    hashTable.delete("pear");
-    System.out.println("Search result for 'pear' after deletion: " + hashTable.search("pear"));
+        for (int i = 0; i < keys.length; i++) {
+            linearHashTable.put(keys[i], values[i]);
+            linearHashTable.printHashTable(linearHashTable);
+        }
+        for (int i = 0; i < keys.length; i++) {
+            chainingHashTable.insert(keys[i], values[i]);
+            chainingHashTable.displayStructure();
+        }
 
-    // Test ChainingHashTable
-     System.out.println("\nTesting ChainingHashTable:");
-     ChainingHashTable chainingHashTable = new ChainingHashTable(3);
-     chainingHashTable.insert("key1", "value1");
-    chainingHashTable.displayStructure(chainingHashTable);
-     chainingHashTable.insert("key2", "value2");
-    chainingHashTable.displayStructure(chainingHashTable);
-     chainingHashTable.insert("key3", "value3");
-    chainingHashTable.displayStructure(chainingHashTable);
-     chainingHashTable.insert("key4", "value4");
-    chainingHashTable.displayStructure(chainingHashTable);
-     chainingHashTable.insert("key5", "value5");
-    chainingHashTable.displayStructure(chainingHashTable);
-    chainingHashTable.insert("key6", "value6");
-    chainingHashTable.displayStructure(chainingHashTable);
-    chainingHashTable.insert("key7", "value7");
-    chainingHashTable.displayStructure(chainingHashTable);
-    chainingHashTable.insert("key8", "value8");
-    chainingHashTable.displayStructure(chainingHashTable);
-    chainingHashTable.insert("key9", "value9");
-    chainingHashTable.displayStructure(chainingHashTable);
-    chainingHashTable.insert("key10", "value10");
-    chainingHashTable.displayStructure(chainingHashTable);
-    chainingHashTable.insert("key11", "value11");
-    chainingHashTable.displayStructure(chainingHashTable);
-    chainingHashTable.insert("key12", "value12");
-    chainingHashTable.displayStructure(chainingHashTable);
-    chainingHashTable.insert("key13", "value13");
-    chainingHashTable.displayStructure(chainingHashTable);
-    chainingHashTable.insert("key517", "value517");
-    chainingHashTable.displayStructure(chainingHashTable);
+        // Search and delete operations for 'key3' in both hash tables
+        System.out.println("Search result for 'key3' in Linear Probing Hash Table: " + linearHashTable.search("key3"));
+        linearHashTable.delete("key3");
+        System.out.println("Search result for 'key3' after deletion in Linear Probing Hash Table: " + linearHashTable.search("key3"));
 
-     System.out.println("Search result for 'key3': " + chainingHashTable.search("key3"));
-     chainingHashTable.delete("key3");
-     System.out.println("Search result for 'key3' after deletion: " + chainingHashTable.search("key3"));
-
-}
+        System.out.println("Search result for 'key3' in Chaining Hash Table: " + chainingHashTable.search("key3"));
+        chainingHashTable.delete("key3");
+        System.out.println("Search result for 'key3' after deletion in Chaining Hash Table: " + chainingHashTable.search("key3"));
+    }
 }

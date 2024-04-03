@@ -1,118 +1,108 @@
 public class ChainingHashTable {
-    private DoubleLinkedL<Entry>[] table;
-    private int size;
-    private int capacity;
-    private static class Entry {
-        String key;
-        String value;
-
-        Entry(String key, String value) {
-            this.key = key;
-            this.value = value;
-        }
-    }
-//cons
+    private DoubleLinkedL<Integer>[] chains; // Array of indices to linked lists
+    private String[] keys; // Array to store keys
+    private String[] values; // Array to store values
+    private int size; // Number of key-value pairs
+    private int capacity; // Capacity of the hash table
+    // Constructor
     public ChainingHashTable(int initialCapacity) {
         this.capacity = Math.max(initialCapacity, 8);
-        this.table = (DoubleLinkedL<Entry>[]) new DoubleLinkedL[capacity];
+        this.chains = (DoubleLinkedL<Integer>[]) new DoubleLinkedL[capacity];
+        this.keys = new String[capacity];
+        this.values = new String[capacity];
         this.size = 0;
         for (int i = 0; i < capacity; i++) {
-            table[i] = new DoubleLinkedL<>();
+            chains[i] = new DoubleLinkedL<>();
         }
     }
-//hash func
+
+    // Hash function
     private int hash(String key) {
         int hashValue = 0;
         int prime = 1031; // Prime number near 2^10
         for (int i = 0; i < key.length(); i++) {
-            hashValue = (prime * hashValue + key.charAt(i)) ;
+            hashValue = (prime * hashValue + key.charAt(i)) & 0x7fffffff; // Avoid negative numbers
         }
-        if (hashValue < 0) {
-            hashValue +=Integer.MAX_VALUE;
-             }
         return hashValue % capacity;
     }
-//add
+
     public void insert(String key, String value) {
         if (key == null) throw new IllegalArgumentException("Key cannot be null");
-        if (size >= 0.75 * capacity) resize(2 * capacity); // Resize if necessary
         int index = hash(key);
-        DoubleLinkedL<Entry> chain = table[index];
-        for (int j = 0; j < chain.getSize(); j++) {
-            Entry entry = chain.get(j);
-            if (entry.key.equals(key)) {
-                entry.value = value;
+        // Check if the key already exists and update the value
+        for (int i = 0; i < chains[index].getSize(); i++) {
+            int chainIndex = chains[index].getData(i); // Assuming get(i) returns the index at position i
+            if (keys[chainIndex].equals(key)) {
+                values[chainIndex] = value;
                 return;
             }
         }
-        chain.insertAtFront(new Entry(key, value));
-        if (chain.getSize() > 8) {
-            throw new IllegalStateException("Chain size exceeded the limit of 8");
-        }
+        // Insert new key-value pair
+        chains[index].insertAtFront(size); // Insert the index of the new key-value pair
+        keys[size] = key;
+        values[size] = value;
         size++;
-        displayLoadFactor();
+        if (size == capacity) {
+            resize(2 * capacity); // Resize if necessary
+        }
     }
-//search
+
     public String search(String key) {
         if (key == null) throw new IllegalArgumentException("Key cannot be null");
         int index = hash(key);
-        DoubleLinkedL<Entry> chain = table[index];
-        for (int j = 0; j < chain.getSize(); j++) {
-            Entry entry = chain.get(j);
-            if (entry.key.equals(key)) {
-                return entry.value;
+        for (int i = 0; i < chains[index].getSize(); i++) {
+            int chainIndex = chains[index].getData(i); // Assuming get(i) returns the index at position i
+            if (keys[chainIndex].equals(key)) {
+                return values[chainIndex];
             }
         }
-        return null;
+        return null; // Key not found
     }
 
+    // Delete method to remove a key-value pair
     public void delete(String key) {
         if (key == null) throw new IllegalArgumentException("Key cannot be null");
         int index = hash(key);
-        DoubleLinkedL<Entry> chain = table[index];
-        for (int j = 0; j < chain.getSize(); j++) {
-            Entry entry = chain.get(j);
-            if (entry.key.equals(key)) {
-                chain.delete(j); // Delete the entry
+        for (int i = 0; i < chains[index].getSize(); i++) {
+            int chainIndex = chains[index].getData(i); // Assuming get(i) returns the index at position i
+            if (keys[chainIndex].equals(key)) {
+                chains[index].delete(i); // Delete the index from the chain
+                keys[chainIndex] = null;
+                values[chainIndex] = null;
                 size--;
-                displayLoadFactor();
                 return;
             }
         }
-        throw new RuntimeException("Key not found");
+        throw new RuntimeException("Key not found"); // Key not found in the chain
     }
 
+
+    // Resize method to increase the capacity of the hash table
+    private void resize(int newCapacity) {
+        ChainingHashTable temp = new ChainingHashTable(newCapacity);
+        for (int i = 0; i < size; i++) {
+            if (keys[i] != null) {
+                temp.insert(keys[i], values[i]); // Rehash
+            }
+        }
+        chains = temp.chains;
+        keys = temp.keys;
+        values = temp.values;
+        capacity = temp.capacity;
+    }
     public double loadFactor() {
         return (double) size / capacity;
     }
 
-    private void displayLoadFactor() {
-        System.out.println("Current load factor: " + loadFactor());
-    }
-//increase capacity
-    private void resize(int newCapacity) {
-        ChainingHashTable temp = new ChainingHashTable(newCapacity);
-        for (int i = 0; i < capacity; i++) {
-            DoubleLinkedL<Entry> chain = table[i];
-            for (int j = 0; j < chain.getSize(); j++) {
-                Entry entry = chain.get(j);
-                temp.insert(entry.key, entry.value); // Rehash
-            }
-        }
-        table = temp.table;
-        capacity = temp.capacity;
-        size = temp.size;
-    }
-
-    public void displayStructure(ChainingHashTable hashTable) {
-        System.out.println("Hash Table:");
-        for (int i = 0; i < hashTable.capacity; i++) {
-            DoubleLinkedL<ChainingHashTable.Entry> chain = hashTable.table[i];
-            if (chain.getSize() > 0) {
+    public void displayStructure() {
+        System.out.println("Chain Hash Table:");
+        for (int i = 0; i < this.capacity; i++) {
+            DoubleLinkedL<Integer> chain = this.chains[i];
+            if (!chain.isEmpty()) {
                 System.out.print("Index " + i + ": ");
                 for (int j = 0; j < chain.getSize(); j++) {
-                    ChainingHashTable.Entry entry = chain.get(j);
-                    System.out.print(entry.key + " -> " + entry.value);
+                    int chainIndex = chain.getData(j); // Assuming get(j) returns the index at position j
+                    System.out.print(keys[chainIndex] + " -> " + values[chainIndex]);
                     if (j < chain.getSize() - 1) {
                         System.out.print(", ");
                     }
@@ -120,9 +110,11 @@ public class ChainingHashTable {
                 System.out.println();
             }
         }
-        System.out.println("Load factor: " + hashTable.loadFactor());
+        System.out.println("Load factor: " + this.loadFactor());
         System.out.println();
     }
+
+
 }
 
 
