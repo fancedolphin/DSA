@@ -1,4 +1,4 @@
-package CHC5223;
+ package CHC5223;
 
 
 public class MemberBST implements IMemberDB {
@@ -21,8 +21,11 @@ public class MemberBST implements IMemberDB {
             System.out.println("Binary Search Tree");
             root = null;
         }
-
-
+        public MemberBST(Node member){
+                this.root=new Node (member);
+                 System.out.println("Binary Search Tree");
+        }
+       
         // Implementations of IMemberDB interface methods
         @Override
         public void clearDB() {
@@ -60,7 +63,7 @@ public class MemberBST implements IMemberDB {
 //            if (member == null || member.getName().isEmpty()) {
 //                throw new IllegalArgumentException("Member cannot be null");
 //            }
-// 返回上一节点data
+// 路碌禄脴脡脧脪禄陆脷碌茫data
             Node[] nodes = {null}; // To store the previous value
             root = put(root, member.getName(), member, nodes);
             return nodes[0] != null ? nodes[0].data : null;
