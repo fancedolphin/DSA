@@ -2,7 +2,7 @@ package CHC5223;
 
 
 public class MemberBST implements IMemberDB {
-        private Node root;
+        public Node root;
 
         private class Node {
             private Member data;
@@ -13,7 +13,9 @@ public class MemberBST implements IMemberDB {
                 this.left = null;
                 this.right = null;
             }
+
         }
+
         //constructor
         public MemberBST() {
             System.out.println("Binary Search Tree");
@@ -29,7 +31,11 @@ public class MemberBST implements IMemberDB {
 
         @Override
         public boolean containsName(String name) {
-            return getNode(name) != null;
+//            if(getNode(name)!=null){
+//                return true;
+//            }
+//            else{return false;}
+            return getNode(name)!=null;
         }
 
         @Override
@@ -40,14 +46,8 @@ public class MemberBST implements IMemberDB {
 
         @Override
         public int size() {
+            System.out.println("ENter root of tree");
             return size(root);
-        }
-
-        private int size(Node node) {
-            if (node == null) {
-                return 0;
-            }
-            return 1 + size(node.left) + size(node.right);
         }
 
         @Override
@@ -57,29 +57,27 @@ public class MemberBST implements IMemberDB {
 
         @Override
         public Member put(Member member) {
-            if (member == null || member.getName().isEmpty()) {
-                throw new IllegalArgumentException("Member cannot be null and the name cannot be an empty string.");
-            }
-            return put(root, member);
-        }
-
-        private Member put(Node node, Member member) {
-            // Implementation of put method
-            // ...
+//            if (member == null || member.getName().isEmpty()) {
+//                throw new IllegalArgumentException("Member cannot be null");
+//            }
+// 返回上一节点data
+            Node[] nodes = {null}; // To store the previous value
+            root = put(root, member.getName(), member, nodes);
+            return nodes[0] != null ? nodes[0].data : null;
         }
 
         @Override
         public Member remove(String name) {
-            // Implementation of remove method based on the provided source code
-            // ...
+            Node[] nodes = {null}; // To store the removed node
+            root = remove(root, name, nodes);
+            return nodes[0] != null ? nodes[0].data : null;
         }
 
-    @Override
-    public void displayDB() {
+        @Override
+        public void displayDB() {
+            displayDB(root);
+        }
 
-    }
-
-    // Helper methods
         private Node getNode(String name) {
             Node current = root;
             while (current != null) {
@@ -95,17 +93,7 @@ public class MemberBST implements IMemberDB {
             return null; // no match found
         }
 
-    // ... [previous code]
 
-    @Override
-    public Member put(Member member) {
-        if (member == null || member.getName().isEmpty()) {
-            throw new IllegalArgumentException("Member cannot be null and the name cannot be an empty string.");
-        }
-        Node[] nodes = {null}; // To store the previous value
-        root = put(root, member.getName(), member, nodes);
-        return nodes[0] != null ? nodes[0].data : null;
-    }
 
     private Node put(Node node, String name, Member member, Node[] prevValue) {
         if (node == null) {
@@ -123,11 +111,11 @@ public class MemberBST implements IMemberDB {
         return node;
     }
 
-    @Override
-    public Member remove(String name) {
-        Node[] nodes = {null}; // To store the removed node
-        root = remove(root, name, nodes);
-        return nodes[0] != null ? nodes[0].data : null;
+    private int size(Node node) {
+        if (node == null) {
+            return 0;
+        }
+        return 1 + size(node.left) + size(node.right);//recu
     }
 
     private Node remove(Node node, String name, Node[] removedNode) {
@@ -168,11 +156,6 @@ public class MemberBST implements IMemberDB {
         }
         node.left = removeMin(node.left);
         return node;
-    }
-
-    @Override
-    public void displayDB() {
-        displayDB(root);
     }
 
     private void displayDB(Node node) {

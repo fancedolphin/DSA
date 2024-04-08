@@ -30,6 +30,10 @@ public interface IMemberDB {
      * Returns a Member object mapped to the supplied name.
      * @pre name not null and not empty string
      * @param name The Member name (key) to locate
+     *
+     *
+     *
+     *             important name not null why otherwise ...
      * @return the Member object mapped to the key name if the name
     exists as key in the database, otherwise null
      */
@@ -52,12 +56,17 @@ public interface IMemberDB {
     /**
      * Inserts a Member object into the database, with the key of the supplied
      * member's name.
-     * Note: If the name already exists as a key, then then the original entry
-     * is overwritten.
+     * Note: If the name already exists as a key, then the original entry is overwritten.
      * This method must return the previous associated value
      * if one exists, otherwise null
      *
      * @pre member not null and member name not empty string
+     * public Member put(Member member){
+     *     Node current = new Node(name);
+     *     if(Node.getname(name)!=null){
+     *
+     *     }
+     * }
      */
     public Member put(Member member);
 
