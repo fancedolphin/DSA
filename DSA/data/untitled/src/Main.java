@@ -22,8 +22,9 @@ public class Main {
         linearHashTable.delete("key3");
         System.out.println("Search result for 'key3' after deletion in Linear Probing Hash Table: " + linearHashTable.search("key3"));
 
-        System.out.println("Search result for 'key3' in Chaining Hash Table: " + chainingHashTable.search("key3"));
-        chainingHashTable.delete("key3");
-        System.out.println("Search result for 'key3' after deletion in Chaining Hash Table: " + chainingHashTable.search("key3"));
+        System.out.println("Search result for 'key517' in Chaining Hash Table: " + chainingHashTable.search("key517"));
+        chainingHashTable.delete("key517");
+        System.out.println("Search result for 'ke517' after deletion in Chaining Hash Table: " + chainingHashTable.search("key517"));
+        chainingHashTable.displayStructure();
     }
 }

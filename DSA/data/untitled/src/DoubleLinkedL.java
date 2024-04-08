@@ -38,9 +38,7 @@ public class DoubleLinkedL<T> {
             size--;
         }
     }
-    public Node<T> getHead() {
-        return head;
-    }
+
 
     public void delete(int index) {
         if (index < 0 || index >= size) {
