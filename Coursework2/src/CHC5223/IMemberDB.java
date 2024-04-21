@@ -61,12 +61,6 @@ public interface IMemberDB {
      * if one exists, otherwise null
      *
      * @pre member not null and member name not empty string
-     * public Member put(Member member){
-     *     Node current = new Node(name);
-     *     if(Node.getname(name)!=null){
-     *
-     *     }
-     * }
      */
     public Member put(Member member);
 
