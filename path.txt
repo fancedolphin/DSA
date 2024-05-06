@@ -1,0 +1,20 @@
+station:
+NodeA: (50, 50)
+NodeB: (200, 50)
+NodeC: (50, 200)
+NodeD: (200, 200)
+NodeE: (125, 125)
+NodeF: (75, 75)
+NodeG: (175, 175)
+NodeH: (125, 50)
+link (with distances in arbitrary units):
+NodeA to NodeB: 150
+NodeA to NodeC: 150
+NodeA to NodeE: 75
+NodeB to NodeD: 150
+NodeB to NodeE: 75
+NodeC to NodeE: 75
+NodeD to NodeE: 75
+NodeE to NodeF: 50
+NodeE to NodeG: 50
+NodeF to NodeH: 60
