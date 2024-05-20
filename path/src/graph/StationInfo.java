@@ -25,7 +25,4 @@ public class StationInfo implements IStationInfo {
     public int getyPos() {
         return yPos;
     }
-    public String toString() {
-        return name + " (" + xPos + ", " + yPos + ")";
-    }
 }

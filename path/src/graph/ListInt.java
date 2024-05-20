@@ -8,7 +8,8 @@ public class ListInt extends AbsListInt {
     @Override
     public void append(int n) {
         assert getSize() != getCapacity() : "List capacity exceeded";
-        list[size++] = n;
+        this.list[this.size]=n;
+        size++;
     }
 
     @Override

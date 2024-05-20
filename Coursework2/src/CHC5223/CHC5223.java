@@ -11,9 +11,6 @@ public class CHC5223 {
 static Scanner kb;
 static IMemberDB db = new MemberBST();
 
-// simply change this to 
-// static IMemberDB db = new MemberBST() 
-// for Assignment 2
 
 static String fileName = "sampleMembersUK.csv";
 
