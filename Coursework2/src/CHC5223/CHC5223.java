@@ -15,7 +15,7 @@ static IMemberDB db = new MemberBST();
 // static IMemberDB db = new MemberBST() 
 // for Assignment 2
 
-static String fileName = "sampleMembersUK.csv";
+static String fileName = "CHC5223/sampleMembersUK.csv";
 
 private static String readNonEmpty() {
     // read non-null, non-empty string;
